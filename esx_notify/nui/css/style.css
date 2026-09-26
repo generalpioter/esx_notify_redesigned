@@ -1,0 +1,192 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+	--surface: rgba(30, 30, 33, 0.82);
+	--surface-edge: rgba(255, 255, 255, 0.10);
+	--text-primary: #f5f5f7;
+	--text-secondary: rgba(235, 235, 245, 0.58);
+	--text-tertiary: rgba(235, 235, 245, 0.38);
+
+	--success: #32d74b;
+	--error: #ff453a;
+	--info: #0a84ff;
+	--warning: #ff9f0a;
+
+	--radius: 20px;
+	--spring: cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html,
+body {
+	width: 100vw;
+	height: 100vh;
+	background: transparent;
+	font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+	overflow: hidden;
+}
+
+.notification-container {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	max-height: 80vh;
+	z-index: 1000;
+}
+
+#middle-right,
+#middle-left {
+	top: 50%;
+	transform: translateY(-50%);
+}
+#middle-right { right: 1.75rem; align-items: flex-end; }
+#middle-left  { left: 1.75rem;  align-items: flex-start; }
+
+#top-right    { right: 1.75rem; top: 1.75rem; align-items: flex-end; }
+#top-left     { left: 1.75rem;  top: 1.75rem; align-items: flex-start; }
+#bottom-right { right: 1.75rem; bottom: 1.75rem; align-items: flex-end; }
+#bottom-left  { left: 1.75rem;  bottom: 1.75rem; align-items: flex-start; }
+
+#top-middle,
+#bottom-middle {
+	left: 50%;
+	transform: translateX(-50%);
+	align-items: center;
+}
+#top-middle    { top: 1.75rem; }
+#bottom-middle { bottom: 1.75rem; }
+
+/* ---------- Card ---------- */
+
+.notify {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	width: 320px;
+	padding: 14px 16px 16px;
+	border-radius: var(--radius);
+	background: var(--surface);
+	border: 1px solid var(--surface-edge);
+}
+
+.notify-success { --accent: var(--success); }
+.notify-error   { --accent: var(--error); }
+.notify-info    { --accent: var(--info); }
+.notify-warning { --accent: var(--warning); }
+
+
+
+.notify-icon {
+	flex-shrink: 0;
+	width: 34px;
+	height: 34px;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: color-mix(in srgb, var(--accent) 18%, transparent);
+	border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.notify-icon .material-symbols-outlined {
+	font-size: 19px;
+	color: var(--accent);
+	font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
+}
+
+.notify-body {
+	flex: 1;
+	min-width: 0;
+}
+
+.notify-row {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 8px;
+	margin-bottom: 2px;
+}
+
+.notify-title {
+	color: var(--text-primary);
+	font-size: 14.5px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.notify-time {
+	flex-shrink: 0;
+	color: var(--text-tertiary);
+	font-size: 11.5px;
+	font-weight: 500;
+}
+
+.notify-text {
+	color: var(--text-secondary);
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.4;
+	word-break: break-word;
+}
+
+.notify-progress {
+	position: absolute;
+	left: 16px;
+	right: 16px;
+	bottom: 8px;
+	height: 2.5px;
+	border-radius: 2px;
+	background: color-mix(in srgb, var(--accent) 70%, white 0%);
+	opacity: 0.55;
+	transform-origin: left;
+}
+
+/* ---------- Motion ---------- */
+
+.fadeOut {
+	animation: notify-out 0.35s ease-in forwards;
+}
+
+#top-right .fadeIn,    #bottom-right .fadeIn,    #middle-right .fadeIn {
+	animation: notify-in-right 0.5s var(--spring) both;
+}
+#top-left .fadeIn,     #bottom-left .fadeIn,     #middle-left .fadeIn {
+	animation: notify-in-left 0.5s var(--spring) both;
+}
+#top-middle .fadeIn {
+	animation: notify-in-top 0.5s var(--spring) both;
+}
+#bottom-middle .fadeIn {
+	animation: notify-in-bottom 0.5s var(--spring) both;
+}
+
+@keyframes notify-in-right {
+	from { opacity: 0; transform: translateX(46px) scale(0.92); }
+	to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes notify-in-left {
+	from { opacity: 0; transform: translateX(-46px) scale(0.92); }
+	to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes notify-in-top {
+	from { opacity: 0; transform: translateY(-36px) scale(0.92); }
+	to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes notify-in-bottom {
+	from { opacity: 0; transform: translateY(36px) scale(0.92); }
+	to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes notify-out {
+	from { opacity: 1; transform: scale(1); }
+	to   { opacity: 0; transform: scale(0.9); }
+}
